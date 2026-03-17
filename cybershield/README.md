@@ -145,7 +145,6 @@ All POST endpoints accept JSON body with:
 }
 ```
 
----
 
 ## For Deployment (Hackathon submission needs live link)
 
@@ -159,26 +158,5 @@ All POST endpoints accept JSON body with:
 5. Start command: `python app.py`
 6. Done — get your live URL
 
----
-
-## Connecting Your Friend's Trained Model (future)
-
-When your teammate's email/URL model is ready:
-
-```python
-# In app.py, inside scan_email() route, add before call_claude():
-
-import pickle
-model = pickle.load(open('models/email_model.pkl', 'rb'))
-vectorizer = pickle.load(open('models/vectorizer.pkl', 'rb'))
-
-# Get model prediction
-features = vectorizer.transform([email_text])
-prediction = model.predict(features)[0]       # 0=legit, 1=phishing
-probability = model.predict_proba(features)[0][1]  # confidence
-
-# Pass to Claude for explanation
-user_content += f"\n\nML MODEL OUTPUT:\n- Prediction: {'PHISHING' if prediction else 'LEGIT'}\n- Probability: {probability:.2%}"
-```
 
 The rest of the code stays the same — Claude uses the model output as extra evidence.
